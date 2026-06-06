@@ -13,4 +13,16 @@ Funziona già per:
 - TXT
 - Markdown
 - HTML
-- DOC
+- DOCX
+- PDF digitale con testo estraibile
+- EPUB
+- MOBI/AZW3 se `ebook-convert` di Calibre è installato localmente
+
+Funzioni già presenti:
+
+- ingest di un libro;
+- ricostruzione cartella standard;
+- segmentazione euristica in capitoli;
+- chunking citabile;
+- generazione file Markdown/JSONL;
+-
