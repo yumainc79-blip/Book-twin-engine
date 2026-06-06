@@ -1,28 +1,7 @@
 # Book Twin Engine
 
-Book Twin Engine trasforma un libro leggibile in una cartella AI-native: Markdown, JSONL, indice SQLite FTS, analisi, concetti, claim, personas e prompt.
+Motore per trasformare libri leggibili in repository AI-native interrogabili.
 
-L'obiettivo non è produrre un semplice riassunto, ma creare un **Book Twin**: una rappresentazione strutturata del libro che possa essere interrogata da AI diverse in modo citabile, navigabile e controllato.
+Stato: repo inizializzata. La v0.1 completa è disponibile nello ZIP generato in ChatGPT: `book-twin-engine-v0.1.zip`.
 
-## Stato
-
-Questa è una prima versione funzionante.
-
-Funziona già per:
-
-- TXT
-- Markdown
-- HTML
-- DOCX
-- PDF digitale con testo estraibile
-- EPUB
-- MOBI/AZW3 se `ebook-convert` di Calibre è installato localmente
-
-Funzioni già presenti:
-
-- ingest di un libro;
-- ricostruzione cartella standard;
-- segmentazione euristica in capitoli;
-- chunking citabile;
-- generazione file Markdown/JSONL;
--
+Prossimo step: caricare localmente lo ZIP completo oppure fare push Git completo da ambiente con accesso GitHub.
