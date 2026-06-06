@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "book-twin-engine"
+version = "0.1.0"
+description = "Create AI-native book repositories from readable books."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "Book Twin"}]
+dependencies = [
+  "typer>=0.12.3",
+  "rich>=13.7.1",
+  "PyYAML>=6.0.1",
+  "pypdf>=4.2.0",
+  "python-docx>=1.1.2",
+  "beautifulsoup4>=4.12.3",
+  "ebooklib>=0.18
