@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book Twin Drive Uploader</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <p class="eyebrow">Book Twin</p>
+      <h1>Drive Uploader</h1>
+      <p class="subtitle">
+        Scegli uno ZIP Book Twin dal telefono, scompattalo nel browser e caricalo su Google Drive in
+        <strong>Book Twin/books/NOME_LIBRO</strong>. Nessun Google Apps Script.
+      </p>
+
+      <div class="grid">
+        <div>
+          <h2>1. Configura Google</h2>
+          <p class="muted">
+            Serve un OAuth Client ID per GitHub Pages. Inseriscilo in <code>docs/config.js</code>.
+          </p>
+          <button id="loginBtn">Accedi con Google</button>
+          <p id="authStatus" class="status">Non connesso.</p>
+        </div>
+
+        <div>
+          <h2>2. Scegli ZIP</h2>
+          <input id="zipInput" type="file" accept=".zip,application/zip">
+          <label for="folderName">Nome cartella finale</label>
+          <input id="folderName" type="text" placeholder="es. yuval_noah_harari_sapiens">
+          <button id="inspectBtn">Leggi ZIP</button>
+        </div>
+      </div>
+
+      <h2>3. Anteprima</h2>
+      <pre id="preview">Nessuno ZIP caricato.</pre>
+
+      <h2>4. Carica su Drive</h2>
+      <button id="uploadBtn" disabled>Carica Book Twin su Drive</button>
+      <pre id="log">In attesa.</pre>
+    </section>
+  </main>
+
+  <script src="./config.js"></script>
+  <script src="./zip.js"></script>
+  <script src="./drive.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
