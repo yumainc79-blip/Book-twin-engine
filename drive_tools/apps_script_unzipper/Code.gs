@@ -1,15 +1,12 @@
-/*
- * Book Twin Drive Unzipper
- *
- * Google Apps Script web app per estrarre uno ZIP caricato su Google Drive
- * dentro una cartella Drive, preservando sottocartelle e file.
- *
- * Uso mobile:
- * 1. Carica lo ZIP Book Twin su Google Drive.
- * 2. Copia il link del file ZIP.
- * 3. Apri la web app pubblicata da Apps Script.
- * 4. Incolla il link.
- * 5. Premi Estrai.
- *
- * Destinazione default:
- * Book Twins/books/[nome_zip
+const ROOT_FOLDER = 'Book Twins';
+const BOOKS_FOLDER = 'books';
+
+function doGet() {
+  return HtmlService.createHtmlOutput(html_())
+    .setTitle('Book Twin Drive Unzipper')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function unzipBookTwin(zipUrlOrId, customName) {
+  const fileId = extractFileId_(zipUrlOrId);
+  if (!fileId) throw new Error('Non ries
