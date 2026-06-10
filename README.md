@@ -29,12 +29,85 @@ python -m pip install -e .
 ## Uso rapido
 
 ```powershell
+book-twin --version
 book-twin ingest .\examples\sample_book.md --out .\output\sample_book --force
 book-twin search .\output\sample_book "tesi centrale"
 book-twin ask .\output\sample_book "Qual è la tesi centrale?"
 ```
 
+Ogni Book Twin registra in `book.config.yaml` l'`engine_version` e il `generated_at` con cui è stato prodotto.
+
 Senza provider LLM, `ask` mostra il contesto recuperato e il prompt. Con Ollama o OpenAI-compatible genera risposte.
+
+## Analisi con un LLM reale
+
+`analyze` richiede per impostazione predefinita un LLM reale e non degrada in silenzio:
+
+```powershell
+book-twin analyze .\output\sample_book --provider anthropic --model claude-sonnet-4-6
+```
+
+Flag utili:
+
+- `--no-require-llm`: accetta un degrado esplicito senza LLM (per debug).
+- `--only-missing`: rianalizza solo i capitoli non già in cache.
+
+L'analisi popola le schede di capitolo (riassunto e tesi distinti), `summary`/`keywords` nei
+chunk e tutti i file `knowledge/*.jsonl`.
+
+## Validazione e verifica di fedeltà
+
+```powershell
+book-twin validate .\output\sample_book   # schema + regole di qualità; esce ≠0 se fallisce
+book-twin verify   .\output\sample_book   # i concetti analizzati compaiono nel testo sorgente?
+```
+
+`validate` controlla struttura, assenza di stub residui, schede non duplicate e le regole 7-10
+(simulazione dichiarata, distinzione testo/inferenza/speculazione, domande profonde, limiti e
+trappole del lettore). `verify` misura quanti concetti sono ancorati al testo del capitolo.
+
+## Ricerca semantica opzionale
+
+La ricerca è ibrida: FTS5/BM25 + embedding locali (fusione Reciprocal Rank Fusion). Gli embedding
+sono opzionali e usano `sentence-transformers` in locale; se la libreria o il modello non sono
+disponibili, la ricerca degrada automaticamente alla sola FTS. Nessuna API esterna è mai obbligatoria.
+
+```powershell
+book-twin index  .\output\sample_book --no-embeddings   # solo FTS
+book-twin search .\output\sample_book "coscienza" --no-hybrid   # solo FTS anche in ricerca
+```
+
+## Usare l'engine da una LLM in chat (server MCP)
+
+L'engine espone un Book Twin a un client MCP (Claude Desktop, Claude Code, ...) così che un LLM
+in chat possa interrogarlo direttamente, con retrieval reale, senza incollare file.
+
+```powershell
+python -m pip install -e ".[mcp]"
+book-twin-mcp .\output\sample_book        # oppure: set BOOK_TWIN_DIR e avvia senza argomenti
+```
+
+Esempio di configurazione per un client MCP:
+
+```json
+{
+  "mcpServers": {
+    "book-twin": {
+      "command": "book-twin-mcp",
+      "args": ["/percorso/output/sample_book"]
+    }
+  }
+}
+```
+
+Il server espone:
+
+- **tools**: `search`, `context`, `chapter`, `chapters`, `concepts`, `claims`, `analysis`;
+- **resources**: `book://metadata`, `book://analysis/{section}`, `book://chapter/{ref}`;
+- **prompts**: `dialogue_integrated`, `simulated_author`.
+
+Il modello del client chiama i tool durante la conversazione: il retrieval gira sull'indice
+(FTS + embedding), quindi non serve caricare il libro nel contesto.
 
 ## Uso con Ollama
 

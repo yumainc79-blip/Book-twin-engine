@@ -1,9 +1,0 @@
-{
-  "name": "Book Twin Drive Uploader",
-  "short_name": "Book Twin",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f3f4f6",
-  "theme_color": "#111827",
-  "description": "Scompatta ZIP Book Twin nel browser e carica la cartella su Google Drive."
-}
